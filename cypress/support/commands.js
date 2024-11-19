@@ -1,25 +1,14 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('preencherDataAtual', (seletor) => {
+    const hoje = new Date();
+    const dataFormatada = `${hoje.getDate().toString().padStart(2, '0')}/${(hoje.getMonth() + 1).toString().padStart(2, '0')}/${hoje.getFullYear()}`;
+    cy.get(seletor).type(dataFormatada);
+  });
+
+  Cypress.Commands.add('preencherDataFutura', (seletor) => {
+    const hoje = new Date();
+    const dataFutura = new Date(hoje);
+    dataFutura.setDate(hoje.getDate() + 1);
+    const dataFuturaFormatada = `${dataFutura.getDate().toString().padStart(2, '0')}/${(dataFutura.getMonth() + 1).toString().padStart(2, '0')}/${dataFutura.getFullYear()}`;
+    cy.get(seletor).type(dataFuturaFormatada);
+  });
+  
