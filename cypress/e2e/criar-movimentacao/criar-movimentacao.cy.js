@@ -61,6 +61,7 @@ describe('Testes para validar movimentações de contas', () => {
     cy.get('#valor').type('100');
     cy.get('#status_pago').click();
     cy.get('.btn-primary').contains('Salvar').click();
+    cy.log('Deve mostrar a mensagem: Data do pagamento deve ser maior ou igual a Data da Movimentação');
     cy.get('.alert-danger').contains('Data do pagamento deve ser maior ou igual a Data da Movimentação')
       .should('contain','Data do pagamento deve ser maior ou igual a Data da Movimentação');
   });
