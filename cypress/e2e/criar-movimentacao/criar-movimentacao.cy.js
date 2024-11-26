@@ -7,22 +7,6 @@ describe('Testes para validar movimentações de contas', () => {
     cy.get('.alert-success').should('contain', 'Bem vindo, Teste!')
     cy.get('.dropdown-toggle').contains('Contas ').click();
     cy.get('a[href="/contas"]').contains('Listar').click();
-
-    cy.get('tr:contains(Conta Teste)').find('td:contains(Conta Teste)').invoke('text').then(($elemento) => {
-      if ($elemento == 'Conta Teste') {
-        cy.contains('Conta Teste');
-        cy.log('Linha encontrada: Conta Teste');
-      }
-      else {
-        // Conta não existe
-        cy.log('Conta não encontrada. Criando uma nova...');
-        cy.get('.dropdown-toggle').contains('Contas ').click();
-        cy.get('a[href="/addConta"]').click();
-        cy.get('#nome').type('Conta Teste');
-        cy.get('.btn-primary').contains('Salvar').click();
-        cy.get('.alert-success').contains('Conta adicionada com sucesso!');
-      }
-    });
   });
 
   it('Criar movimentação com dados válidos', () => {
