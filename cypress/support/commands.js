@@ -12,3 +12,10 @@ Cypress.Commands.add('preencherDataAtual', (seletor) => {
     cy.get(seletor).type(dataFuturaFormatada);
   });
   
+  Cypress.Commands.add('preencherDataAnterior', (seletor) => {
+    const hoje = new Date();
+    const dataAnterior = new Date(hoje);
+    dataAnterior.setDate(hoje.getDate() - 1);
+    const dataAnteriorFormatada = `${dataAnterior.getDate().toString().padStart(2, '0')}/${(dataAnterior.getMonth() - 1).toString().padStart(2, '0')}/${dataAnterior.getFullYear()}`;
+    cy.get(seletor).type(dataAnteriorFormatada);
+  });

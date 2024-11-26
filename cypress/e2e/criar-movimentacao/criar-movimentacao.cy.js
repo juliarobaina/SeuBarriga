@@ -37,4 +37,45 @@ describe('Testes para validar movimentações de contas', () => {
     cy.get('.alert-danger').contains('Valor deve ser um número')
       .should('contain','Valor deve ser um número');
   });
+
+  it('Criar movimentação paga sem data de pagamento', () => {
+    cy.get('a[href="/movimentacao"]').contains('Criar Movimentação').click();
+    cy.get('#tipo').select('DESP').find(':selected').should('have.text', 'Despesa');
+    cy.preencherDataAtual('#data_transacao');
+    cy.get('#descricao').type('Descrição Teste');
+    cy.get('#interessado').type('Interessado Teste');
+    cy.get('#valor').type('100');
+    cy.get('#status_pago').click();
+    cy.get('.btn-primary').contains('Salvar').click();
+    cy.get('.alert-danger').contains('Data do pagamento é obrigatório')
+      .should('contain','Data do pagamento é obrigatório');
+  });
+
+  it('Criar movimentação com data de pagamento menor que data atual', () => {
+    cy.get('a[href="/movimentacao"]').contains('Criar Movimentação').click();
+    cy.get('#tipo').select('DESP').find(':selected').should('have.text', 'Despesa');
+    cy.preencherDataAtual('#data_transacao');
+    cy.preencherDataAnterior('#data_pagamento');
+    cy.get('#descricao').type('Descrição Teste');
+    cy.get('#interessado').type('Interessado Teste');
+    cy.get('#valor').type('100');
+    cy.get('#status_pago').click();
+    cy.get('.btn-primary').contains('Salvar').click();
+    cy.get('.alert-danger').contains('Data do pagamento deve ser maior ou igual a Data da Movimentação')
+      .should('contain','Data do pagamento deve ser maior ou igual a Data da Movimentação');
+  });
+
+  it('Criar movimentação com data da movimentação maior que a data atual', () => {
+    cy.get('a[href="/movimentacao"]').contains('Criar Movimentação').click();
+    cy.get('#tipo').select('DESP').find(':selected').should('have.text', 'Despesa');
+    cy.preencherDataFutura('#data_transacao');
+    cy.preencherDataFutura('#data_pagamento');
+    cy.get('#descricao').type('Descrição Teste');
+    cy.get('#interessado').type('Interessado Teste');
+    cy.get('#valor').type('100');
+    cy.get('#status_pago').click();
+    cy.get('.btn-primary').contains('Salvar').click();
+    cy.get('.alert-danger').contains('Data da Movimentação deve ser menor ou igual à data atual')
+      .should('contain', 'Data da Movimentação deve ser menor ou igual à data atual');
+  });
 });
