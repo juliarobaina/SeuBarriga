@@ -60,7 +60,7 @@ describe('Cenário 03 - Conta', () => {
         //apaga o conteúdo do input
         cy.preencherForm('{selectall}{backspace}')
 
-        nomeConta = nomeConta+'2'
+        nomeConta = 'Conta editada'
         cy.preencherForm(nomeConta)
 
         cy.submitForm()
