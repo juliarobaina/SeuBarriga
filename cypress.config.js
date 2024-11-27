@@ -4,7 +4,6 @@ module.exports = {
       // implement node event listeners here
     },
     baseUrl: "https://seubarriga.wcaquino.me",
-    video:true,
   },
   
 };
