@@ -9,74 +9,65 @@ describe('Testes para validar movimentações de contas', () => {
   });
 
   it('Criar movimentação com dados válidos', () => {
-    cy.get('a[href="/movimentacao"]').contains('Criar Movimentação').click();
-    cy.get('#tipo').select('DESP').find(':selected').should('have.text', 'Despesa');
+    cy.clicaCriarMovimentacao('a[href="/movimentacao"]');
+    cy.selecionaTipoMovimentacao('#tipo');
     cy.preencherDataAtual('#data_transacao');
     cy.preencherDataFutura('#data_pagamento');
-    cy.get('#descricao').type('Descrição Teste');
-    cy.get('#interessado').type('Interessado Teste');
-    cy.get('#valor').type('100');
-    cy.get('#status_pago').click();
-    cy.get('.btn-primary').contains('Salvar').click();
-    cy.get('.alert-success').contains('Movimentação adicionada com sucesso!');
+    cy.insereDescricao('#descricao');
+    cy.insereInteressado('#interessado');
+    cy.insereValor('#valor');
+    cy.marcaStatusPago('#status_pago');
+    cy.clicaBotaoSalvar('.btn-primary');
+    cy.validaMensagemMovimentacaoAdicionada('.alert-success');
   });
 
   it('Criar movimentação sem preencher os campos', () => {
-    cy.get('a[href="/movimentacao"]').contains('Criar Movimentação').click();
-    cy.get('.btn-primary').contains('Salvar').click();
-    cy.get('.alert-danger').contains('Data da Movimentação é obrigatório')
-      .should('contain','Data da Movimentação é obrigatório');
-    cy.get('.alert-danger').contains('Data do pagamento é obrigatório')
-      .should('contain','Data do pagamento é obrigatório');
-    cy.get('.alert-danger').contains('Descrição é obrigatório')
-      .should('contain','Descrição é obrigatório');
-    cy.get('.alert-danger').contains('Interessado é obrigatório')
-      .should('contain','Interessado é obrigatório')
-    cy.get('.alert-danger').contains('Valor é obrigatório')
-      .should('contain','Valor é obrigatório');
-    cy.get('.alert-danger').contains('Valor deve ser um número')
-      .should('contain','Valor deve ser um número');
+    cy.clicaCriarMovimentacao('a[href="/movimentacao"]');
+    cy.clicaBotaoSalvar('.btn-primary');
+    cy.verificaDataMovimentacaoObtigatoria('.alert-danger');
+    cy.verificaDataPagamentoObrigatorio('.alert-danger');
+    cy.verificaDescricaoObrigatoria('.alert-danger');
+    cy.verificaInteressadoObrigatorio('.alert-danger');
+    cy.verificaValorObrigatorio('.alert-danger');
+    cy.verificaTipoValor('.alert-danger');
   });
 
   it('Criar movimentação paga sem data de pagamento', () => {
-    cy.get('a[href="/movimentacao"]').contains('Criar Movimentação').click();
-    cy.get('#tipo').select('DESP').find(':selected').should('have.text', 'Despesa');
+    cy.clicaCriarMovimentacao('a[href="/movimentacao"]');
+    cy.selecionaTipoMovimentacao('#tipo');
     cy.preencherDataAtual('#data_transacao');
-    cy.get('#descricao').type('Descrição Teste');
-    cy.get('#interessado').type('Interessado Teste');
-    cy.get('#valor').type('100');
-    cy.get('#status_pago').click();
-    cy.get('.btn-primary').contains('Salvar').click();
-    cy.get('.alert-danger').contains('Data do pagamento é obrigatório')
-      .should('contain','Data do pagamento é obrigatório');
+    cy.insereDescricao('#descricao');
+    cy.insereInteressado('#interessado');
+    cy.insereValor('#valor');
+    cy.marcaStatusPago('#status_pago');
+    cy.clicaBotaoSalvar('.btn-primary');
+    cy.verificaDataPagamentoObrigatorio('.alert-danger');
   });
 
   it('Criar movimentação com data de pagamento menor que data atual', () => {
-    cy.get('a[href="/movimentacao"]').contains('Criar Movimentação').click();
-    cy.get('#tipo').select('DESP').find(':selected').should('have.text', 'Despesa');
+    cy.clicaCriarMovimentacao('a[href="/movimentacao"]');
+    cy.selecionaTipoMovimentacao('#tipo');
     cy.preencherDataAtual('#data_transacao');
     cy.preencherDataAnterior('#data_pagamento');
-    cy.get('#descricao').type('Descrição Teste');
-    cy.get('#interessado').type('Interessado Teste');
-    cy.get('#valor').type('100');
-    cy.get('#status_pago').click();
-    cy.get('.btn-primary').contains('Salvar').click();
+    cy.insereDescricao('#descricao');
+    cy.insereInteressado('#interessado');
+    cy.insereValor('#valor');
+    cy.marcaStatusPago('#status_pago');
+    cy.clicaBotaoSalvar('.btn-primary');
     cy.log('Deve mostrar a mensagem: Data do pagamento deve ser maior ou igual a Data da Movimentação');
-    cy.get('.alert-danger').contains('Data do pagamento deve ser maior ou igual a Data da Movimentação')
-      .should('contain','Data do pagamento deve ser maior ou igual a Data da Movimentação');
+    cy.validaDataPagamentoMaiorQueDataMovimentacao('.alert-danger');
   });
 
   it('Criar movimentação com data da movimentação maior que a data atual', () => {
-    cy.get('a[href="/movimentacao"]').contains('Criar Movimentação').click();
-    cy.get('#tipo').select('DESP').find(':selected').should('have.text', 'Despesa');
+    cy.clicaCriarMovimentacao('a[href="/movimentacao"]');
+    cy.selecionaTipoMovimentacao('#tipo');
     cy.preencherDataFutura('#data_transacao');
     cy.preencherDataFutura('#data_pagamento');
-    cy.get('#descricao').type('Descrição Teste');
-    cy.get('#interessado').type('Interessado Teste');
-    cy.get('#valor').type('100');
-    cy.get('#status_pago').click();
-    cy.get('.btn-primary').contains('Salvar').click();
-    cy.get('.alert-danger').contains('Data da Movimentação deve ser menor ou igual à data atual')
-      .should('contain', 'Data da Movimentação deve ser menor ou igual à data atual');
+    cy.insereDescricao('#descricao');
+    cy.insereInteressado('#interessado');
+    cy.insereValor('#valor');
+    cy.marcaStatusPago('#status_pago');
+    cy.clicaBotaoSalvar('.btn-primary');
+    cy.validaDataMovimentacaoMenorOuIgualDataAtual('.alert-danger');
   });
 });
