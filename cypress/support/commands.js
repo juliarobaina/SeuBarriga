@@ -18,8 +18,8 @@ Cypress.Commands.add('preencherDataAtual', (dataTransacao) => {
     cy.get(dataPagamentoAnterior).type(dataAnteriorFormatada);
   });
 
-  Cypress.Commands.add('clicaCriarMovimentacao', (movimentacao) => {
-    cy.get(movimentacao).contains('Criar Movimentação').click();
+  Cypress.Commands.add('clicaCriarMovimentacao', (criaMovimentacao) => {
+    cy.get(criaMovimentacao).contains('Criar Movimentação').click();
   })
 
   Cypress.Commands.add('clicaBotaoSalvar', (clicaBotaoSalvar) => {
