@@ -4,3 +4,8 @@ Desenvolver o entregável 2 do Bootcamp Avanti que consiste na automatização d
 
 - Descrição:
 Automatizar casos os testes da aplicação Seu Barriga(https://seubarriga.wcaquino.me/) cobrindo a maior parte possível de casos.
+
+Para instalar as dependências do projeto, execute:
+```console
+npm install
+```
