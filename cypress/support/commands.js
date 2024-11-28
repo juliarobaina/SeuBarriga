@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Cypress.Commands.add('preencherDataAtual', (dataTransacao) => {
     const hoje = new Date();
     const dataFormatada = `${hoje.getDate().toString().padStart(2, '0')}/${(hoje.getMonth() + 1).toString().padStart(2, '0')}/${hoje.getFullYear()}`;
@@ -110,7 +109,7 @@ Cypress.Commands.add('submitForm', () => {
 Cypress.Commands.add('validarMensagemSubmitForm', (msg) => {
     cy.get('div[role="alert"]').contains(msg).should("be.visible")
 })
-=======
+
 Cypress.Commands.add('criarMovimentacao', (movimentacao) => {
     cy.get('a[href="/movimentacao"]').click();
     cy.get('#tipo').type(movimentacao.tipo);
@@ -131,4 +130,3 @@ Cypress.Commands.add('visitarResumoMensal', (mes, ano) => {
     cy.get('select[name="ano"]').select(ano);
     cy.get('.btn-primary').contains('Buscar').click();
 });
->>>>>>> ResumoMensalSair
