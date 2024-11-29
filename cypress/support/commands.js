@@ -107,7 +107,10 @@ Cypress.Commands.add('submitForm', () => {
 })
 
 Cypress.Commands.add('validarMensagemSubmitForm', (msg) => {
-    cy.get('div[role="alert"]').contains(msg).should("be.visible")
+    cy.get('div[role="alert"]')
+        .should('be.visible')
+        .invoke('text')
+        .should('include', msg)
 })
 
 Cypress.Commands.add('criarMovimentacao', (movimentacao) => {
@@ -122,11 +125,12 @@ Cypress.Commands.add('criarMovimentacao', (movimentacao) => {
     cy.get('input[name="status"][value="1"]').click();
     cy.get('button[type="submit"]').click();
     cy.contains('Movimentação adicionada com sucesso!').should('be.visible');
-});
+})
+
 
 Cypress.Commands.add('visitarResumoMensal', (mes, ano) => {
     cy.get('a[href="/extrato"]').contains('Resumo Mensal').click();
     cy.get('select[name="mes"]').select(mes);
     cy.get('select[name="ano"]').select(ano);
     cy.get('.btn-primary').contains('Buscar').click();
-});
+})
