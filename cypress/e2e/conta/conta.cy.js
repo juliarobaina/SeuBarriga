@@ -11,9 +11,6 @@ describe('Cenário 03 - Conta', () => {
     var nomeContaEditada = 'Conta editada'
     const timestamp = new Date().getTime()
 
-    console.log(nomeConta + timestamp)
-    console.log(nomeContaEditada + timestamp)
-
     it('CT001 - Adicionar uma Conta', () => {
         cy.visit('/addConta')
         cy.preencherForm(nomeConta + timestamp)
