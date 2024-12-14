@@ -3,6 +3,7 @@ module.exports = {
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    baseUrl: "https://seubarriga.wcaquino.me"
+    baseUrl: "https://seubarriga.wcaquino.me",
   },
+  
 };
