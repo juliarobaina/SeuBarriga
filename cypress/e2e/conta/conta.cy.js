@@ -1,35 +1,32 @@
-beforeEach(() => {
+beforeEach(() =>{//executa antes de cada teste 
     cy.visit('/login')
+
     cy.login('testonauta1@hotmail.com', 'Teste123')
+    
 })
 
 describe('Cenário 03 - Conta', () => {
+    //nome da conta a ser utilizado nos teste conforme estabelecido no documento especificação de teste
+    var nomeConta = 'Teste'
+    var nomeContaEditada = 'Conta editada'
     const timestamp = new Date().getTime()
-    const NOME_CONTA_PADRAO = `Teste_${timestamp}`
-    let nomeConta = NOME_CONTA_PADRAO
 
-    beforeEach(() => {
-        nomeConta = NOME_CONTA_PADRAO
-    })
+    console.log(nomeConta + timestamp)
+    console.log(nomeContaEditada + timestamp)
 
     it('CT001 - Adicionar uma Conta', () => {
         cy.visit('/addConta')
-        cy.preencherForm(nomeConta)
+        cy.preencherForm(nomeConta + timestamp)
         cy.submitForm()
         cy.validarMensagemSubmitForm("Conta adicionada com sucesso!")
     })
 
     it('CT002 - Adicionar uma conta com nome já cadastrado', () => {
-        // Primeiro, criar a conta
         cy.visit('/addConta')
-        cy.preencherForm(nomeConta)
-        cy.submitForm()
-        
-        // Tentar criar novamente com o mesmo nome
-        cy.visit('/addConta')
-        cy.preencherForm(nomeConta)
+        cy.preencherForm(nomeConta + timestamp)
         cy.submitForm()
         cy.validarMensagemSubmitForm("Já existe uma conta com esse nome!")
+        //cy.url().should('include', '/salvarConta')
     })
 
     it('CT003 - Adicionar uma conta com nome em branco', () => {
@@ -60,73 +57,31 @@ describe('Cenário 03 - Conta', () => {
     })
 
     it('CT005 - Editar conta - Alteração de nome', () => {
-        const novoNome = `Conta_Editada_${new Date().getTime()}`
-        
-        // Criar a conta
-        cy.visit('/addConta')
-        cy.preencherForm(nomeConta)
-        cy.submitForm()
-        
-        // Navegar para lista de contas
         cy.visit('/contas')
 
-        // Localizar e editar a conta
-        cy.contains('tr', nomeConta)
-            .should('be.visible')
-            .within(() => {
-                cy.get('span.glyphicon-edit')
-                    .should('be.visible')
-                    .click()
-            })
+        //clica no ícone de editar da conta Teste
+        cy.contains('tr', nomeConta + timestamp).find('span.glyphicon-edit').click()  
 
-        // Aguardar a página de edição carregar
-        cy.url().should('include', '/editarConta')
+        //apaga o conteúdo do input
+        cy.preencherForm('{selectall}{backspace}')
 
-        // Editar o nome usando um valor único
-        cy.get('input[name="nome"]')
-            .should('be.visible')
-            .clear()
-            .should('have.value', '') // Garantir que o campo foi limpo
-            .type(novoNome)
-            .should('have.value', novoNome) // Garantir que o novo valor foi digitado
+        //nomeConta = 'Conta editada'
+        cy.preencherForm(nomeContaEditada + timestamp)
 
-        // Submeter o formulário
-        cy.get('form[action="/salvarConta"]')
-            .should('be.visible')
-            .submit()
+        cy.submitForm()
+        cy.validarMensagemSubmitForm("Conta alterada com sucesso!")
 
-        // Validar mensagem de sucesso com retry
-        cy.get('div[role="alert"]', { timeout: 10000 })
-            .should('be.visible')
-            .should(($el) => {
-                expect($el.text()).to.include('Conta alterada com sucesso!')
-            })
     })
 
     it('CT006 - Editar conta com nome em branco', () => {
-        // Criar a conta primeiro
-        cy.visit('/addConta')
-        cy.preencherForm(nomeConta)
-        cy.submitForm()
-        
         cy.visit('/contas')
 
-        // Localizar e editar a conta usando o nome correto
-        cy.contains('tr', nomeConta)
-            .should('be.visible')
-            .within(() => {
-                cy.get('span.glyphicon-edit').click()
-            })
+        //clica no ícone de editar da conta Teste
+        cy.contains('tr', nomeContaEditada + timestamp).find('span.glyphicon-edit').click()  
         
-        cy.get('input[name="nome"]')
-            .should('be.visible')
-            .clear()
+        cy.preencherForm('{selectall}{backspace}')
 
-        cy.get('form[action="/salvarConta"]').submit()
-        
-        // Validar mensagem de erro
-        cy.get('div[role="alert"]')
-            .should('be.visible')
-            .and('contain', 'Informe o nome da conta')
+        cy.submitForm()
+        cy.validarMensagemSubmitForm("Informe o nome da conta")
     })
 })
